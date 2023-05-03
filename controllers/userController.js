@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const CycleUser = require('../models/cycleuserModel');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
@@ -274,7 +275,17 @@ const loadAbout = async (req, res) => {
 };
 const loadStartRide = async (req, res) => {
     try {
-        res.render('startride');
+        const userData = await User.findById({ _id: req.session.user_id });
+
+        const cycleData = await CycleUser.findOne({id:userData._id});
+        if(cycleData.status != 1|| cycleData.status=="undefined"){
+            res.render('startride',{user:userData});
+        }
+        else{
+            res.render('endride',{user: userData});
+        }
+        // res.render('startride',{user:userData});
+        
     }
     catch(error){
         console.log(error.message);
@@ -291,7 +302,78 @@ const add50 = async (req, res) => {
         console.log(error.message);
     }
 };
+const startride = async (req,res)=>{
+    try{
+        const date = new Date();
+        let hour = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
 
+        const cycleid = await CycleUser.findOne({id:req.session.user_id});
+        if(cycleid){
+            const cycleData = await CycleUser.updateMany({id:req.body.id},{$set:{cycleid:req.body.cycleid,starthour:hour,startminutes:minutes,startseconds:seconds,status:1}});
+            if(cycleData){
+                const userData = await User.findById({ _id: req.session.user_id });
+                res.render('startride',{message:"Time is started Please logout",user:userData});
+            }
+            else{
+                res.render('404');
+            }
+        }
+        else{
+            cycleid  = new CycleUser({
+                id: req.body.id,
+                cycleid: req.body.cycleid,
+                starthour: hour,
+                startminutes: minutes,
+                startseconds: seconds,
+                status:1
+            })
+    
+            const cycledata = await cycleid.save();
+    
+            if(cycledata){
+                const userData = await User.findById({ _id: req.session.user_id });
+                res.render('startride',{message:"Time is started Please logout",user:userData});
+            }
+            else{
+                res.render('404');
+            }
+        }
+        
+
+
+        
+
+    }
+    catch(error){
+        console.log(error.message);
+    }
+};
+
+const endride = async(req,res)=>{
+    try{
+        const date = new Date();
+        let hour = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        
+       const cycleid = await CycleUser.updateMany({id:req.body.id},{$set:{endhour:hour,endminutes:minutes,endseconds:seconds,status:0}});
+       if(cycleid){
+            const userData = await User.findById({ _id: req.session.user_id });
+            res.render('endride',{message:"Time is ended Please logout",user:userData});
+       }
+       else{
+        res.render('404');
+       }
+        
+
+
+    }
+    catch(error){
+        console.log(error.message);
+    }
+};
 
 module.exports = {
     loadRegiser,
@@ -309,5 +391,7 @@ module.exports = {
     loadWallet,
     loadAbout,
     loadStartRide,
-    add50
+    add50,
+    startride,
+    endride
 }

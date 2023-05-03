@@ -34,11 +34,10 @@
                 <%
                 }
             %>
-            <form action="/startride" method="post">
-                <input type="text" name="cycleid" placeholder="Enter cycle id and click on start">
-                <input type="hidden" name="id" value="<%=user._id%>">
+            <form action="/endride" method="post">
+                <input type="hidden" name="id" value="<%=user.id%>">
                 <br>
-                <input type="submit" value="Start">
+                <input type="submit" value="End">
             </form>
         </div>
         <img src="images/startridecycle.png" alt="" class="startcycle">
