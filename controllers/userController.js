@@ -1,5 +1,4 @@
 const User = require('../models/userModel');
-const CycleUser = require('../models/cycleuserModel');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
@@ -277,8 +276,7 @@ const loadStartRide = async (req, res) => {
     try {
         const userData = await User.findById({ _id: req.session.user_id });
 
-        const cycleData = await CycleUser.findOne({id:userData._id});
-        if(cycleData.status != 1|| cycleData.status=="undefined"){
+        if(userData.status != 1|| userData.status=="undefined"){
             res.render('startride',{user:userData});
         }
         else{
@@ -309,10 +307,9 @@ const startride = async (req,res)=>{
         let minutes = date.getMinutes();
         let seconds = date.getSeconds();
 
-        const cycleid = await CycleUser.findOne({id:req.session.user_id});
-        if(cycleid){
-            const cycleData = await CycleUser.updateMany({id:req.body.id},{$set:{cycleid:req.body.cycleid,starthour:hour,startminutes:minutes,startseconds:seconds,status:1}});
-            if(cycleData){
+        const userData = await User.findOne({id:req.session.user_id});
+            const userupdated = await User.updateMany({id:req.body.id},{$set:{cycleid:req.body.cycleid,starthour:hour,startminutes:minutes,startseconds:seconds,status:1}});
+            if(userupdated){
                 const userData = await User.findById({ _id: req.session.user_id });
                 res.render('startride',{message:"Time is started Please logout",user:userData});
             }
@@ -320,55 +317,56 @@ const startride = async (req,res)=>{
                 res.render('404');
             }
         }
-        else{
-            cycleid  = new CycleUser({
-                id: req.body.id,
-                cycleid: req.body.cycleid,
-                starthour: hour,
-                startminutes: minutes,
-                startseconds: seconds,
-                status:1
-            })
-    
-            const cycledata = await cycleid.save();
-    
-            if(cycledata){
-                const userData = await User.findById({ _id: req.session.user_id });
-                res.render('startride',{message:"Time is started Please logout",user:userData});
-            }
-            else{
-                res.render('404');
-            }
-        }
-        
-
-
-        
-
-    }
     catch(error){
         console.log(error.message);
     }
 };
 
+function convertHoursToMinutes(hours, minutes, seconds) {
+    let totalMinutes = (hours * 60) + minutes + (seconds / 60);
+    return totalMinutes;
+};
+
+function charge(){
+  
+        const userData = User.findById({ _id: req.session.user_id });
+        
+        return totalcharge;
+    }
 const endride = async(req,res)=>{
     try{
         const date = new Date();
         let hour = date.getHours();
         let minutes = date.getMinutes();
         let seconds = date.getSeconds();
-        
-       const cycleid = await CycleUser.updateMany({id:req.body.id},{$set:{endhour:hour,endminutes:minutes,endseconds:seconds,status:0}});
-       if(cycleid){
+
+       const userupdated = await User.updateMany({_id:req.body.id},{$set:{endhour:hour,endminutes:minutes,endseconds:seconds,status:0}});
+       if(userupdated){
             const userData = await User.findById({ _id: req.session.user_id });
-            res.render('endride',{message:"Time is ended Please logout",user:userData});
+            const starthour = userData.starthour;
+            const startminutes = userData.startminutes;
+            const startseconds = userData.startseconds;
+            const endhour = userData.endhour;
+            const endminutes = userData.endminutes;
+            const endseconds = userData.endseconds;
+    
+            const starttime = convertHoursToMinutes(starthour, startminutes, startseconds);
+            const endtime = convertHoursToMinutes(endhour, endminutes, endseconds);
+            const totaltime = endtime - starttime;
+            const totalcharge = totaltime * 10;
+
+            const updatedData = await User.updateOne({ _id:req.body.id }, { $set: { balance: userData.balance - totalcharge.toPrecision(2) ,lastride:totalcharge.toPrecision(2)} });
+            if(updatedData){
+                res.render('endride',{message:"Time is ended, deducted amount: ",user:userData,totalcharge:totalcharge.toPrecision(2)});
+            }
+            else{
+                res.render('404');
+            }
+            
        }
        else{
         res.render('404');
        }
-        
-
-
     }
     catch(error){
         console.log(error.message);

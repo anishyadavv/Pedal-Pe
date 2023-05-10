@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/startride.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<script src="https://kit.fontawesome.com/00ee24977f.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://kit.fontawesome.com/00ee24977f.js" crossorigin="anonymous"></script>
     <title>Start Ride</title>
 </head>
+
 <body>
     <nav>
         <h3 class="logo"> <a href="/"><span class="pedal">Pedal</span>पे
@@ -20,34 +22,36 @@
         <div class="navbar">
             <ul>
                 <li> <a href="/">Home</a> </li>
-                    <li> <a href="/wallet"> Wallet</a></li>
+                <li> <a href="/wallet"> Wallet</a></li>
                 <li><a href="/stands">Stands</a></li>
                 <li><a href="/logout">logout</a></li>
                 <li><a href="/about">About</a></li>
             </ul>
         </div>
     </nav>
-        <div class="cycleid">
-            <%if(typeof message != 'undefined'){
+    <div class="cycleid">
+        <%if(typeof message != 'undefined'){
                 %>
-                    <p Style="color:white; text-align: center;"><%=message%></p>        
-                <%
+            <p Style="color:white; text-align: center;">
+                <%=message%>
+            </p>
+            <%
                 }
             %>
-            <form action="/startride" method="post">
-                <input type="text" name="cycleid" placeholder="Enter cycle id and click on start">
-                <input type="hidden" name="id" value="<%=user._id%>">
-                <br>
-                <input type="submit" value="Start">
-            </form>
-        </div>
-        <img src="images/startridecycle.png" alt="" class="startcycle">
+                <form action="/startride" method="post">
+                    <input type="text" name="cycleid" placeholder="Enter cycle id and click on start">
+                    <br>
+                    <input type="submit" value="Start">
+                </form>
+    </div>
+    <img src="images/cycle.gif" alt="" class="startcycle">
 
-        
-        <!-- <div class="timer">
+
+    <!-- <div class="timer">
             <h2>Time Left</h2>
         <p>02:00</p>
         </div> -->
-        
+
 </body>
+
 </html>

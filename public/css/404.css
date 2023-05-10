@@ -1,0 +1,64 @@
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+.navbar ul li{
+    float:left; 
+    list-style: none;
+    margin: 3vw;
+    color: white;
+}
+.navbar ul li a{
+    text-decoration: none;
+    color: white;
+}
+
+.navbar ul li:hover{
+    cursor: pointer;
+}
+.navbar{
+    float: right;
+}
+.logo{
+    margin-top: 55px;
+    margin-left: 10%;
+    float:left;
+    color: #007BFf;
+    font-size: 1.5rem;
+    font-weight:600;
+}
+.logo p{
+    font-size: 7.9px;
+}
+.logo a{
+    text-decoration: none;
+    color: inherit;
+}
+/* nav{
+    margin-left: 10%;
+    margin-right: 10%;
+} */
+.pedal{
+    color: black;
+}
+h1{
+    font-size: 6rem;
+    background: linear-gradient(105.59deg, rgba(99, 58, 151, 0.9) 34.3%, rgba(76, 135, 198, 0.9) 91.59%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+h4{
+    color:#3A3A3A;
+}
+h5{
+    color:#7B7B7B;
+
+}
+.center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
