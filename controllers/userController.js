@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 const config = require('../config/config');
 
+
 const securePassword = async (password) => {
     try{
         const passwordHash = await bcrypt.hash(password, 10);
@@ -302,6 +303,8 @@ const add50 = async (req, res) => {
 };
 const startride = async (req,res)=>{
     try{
+        
+        
         const date = new Date();
         let hour = date.getHours();
         let minutes = date.getMinutes();
@@ -354,10 +357,10 @@ const endride = async(req,res)=>{
             const endtime = convertHoursToMinutes(endhour, endminutes, endseconds);
             const totaltime = endtime - starttime;
             const totalcharge = totaltime * 10;
-
-            const updatedData = await User.updateOne({ _id:req.body.id }, { $set: { balance: userData.balance - totalcharge.toPrecision(2) ,lastride:totalcharge.toPrecision(2)} });
+            var  totalCharge = parseInt(totalcharge);
+            const updatedData = await User.updateOne({ _id:req.body.id }, { $set: { balance: userData.balance - totalCharge ,lastride:totalCharge} });
             if(updatedData){
-                res.render('endride',{message:"Time is ended, deducted amount: ",user:userData,totalcharge:totalcharge.toPrecision(2)});
+                res.render('endride',{message:"Time is ended, deducted amount: ",user:userData,totalcharge:totalCharge});
             }
             else{
                 res.render('404');
@@ -372,6 +375,11 @@ const endride = async(req,res)=>{
         console.log(error.message);
     }
 };
+
+
+
+
+
 
 module.exports = {
     loadRegiser,
@@ -391,5 +399,5 @@ module.exports = {
     loadStartRide,
     add50,
     startride,
-    endride
+    endride,
 }

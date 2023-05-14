@@ -1,0 +1,86 @@
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+body{
+    background: linear-gradient(105.59deg, rgba(99, 58, 151, 0.9) 34.3%, rgba(76, 135, 198, 0.9) 91.59%);
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+.logo{
+    margin-top: 55px;
+    margin-left: 10%;
+    float:left;
+    color: #007BFf;
+    font-size: 1.5rem;
+    font-weight:600;
+}
+.logo p{
+    font-size: 7.9px;
+    color:white;
+}
+.logo a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.pedal{
+    color:white;
+}
+.signinbox{
+    width:  350px;
+    height: 350px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    padding: 50px;
+    box-sizing: border-box;
+    color: black;
+    background:white;
+    align-items: center;
+    justify-content: center;
+    
+}
+.signinbox h2{
+    font-size: 1.2rem;
+    text-align: center;
+}
+.signinbox p{
+    font-size: 0.8rem;
+    text-align: center;
+    opacity: 0.8;
+}
+.circle{
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(105.59deg, rgba(99, 58, 151, 0.9) 34.3%, rgba(76, 135, 198, 0.9) 91.59%);
+    border-radius: 50px;
+    position: relative;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.circle i{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 2rem;
+}
+button{
+    padding: 1.5vw 2vw;
+    border-radius: 50px;
+    border: 0px;
+    background-color: black;
+    color: white;
+    cursor: pointer; 
+    font-size: 1.1rem;
+    width: 100%;
+}
+button i{
+    position: relative;
+    right: -50px;
+}

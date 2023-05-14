@@ -60,6 +60,10 @@ const userSchema = new mongoose.Schema({
     lastride:{
         type:Number,
         default:0
+    },
+    paymentId:{
+        type:String,
+        default:''
     }
 });
 
